@@ -14,19 +14,40 @@ def send_product_to_api(product):
 
     url = f"{BASE_URL}products"
     headers = {
-        "Authorization": f"Bearer {API_TOKEN}",
+        "api-key": f"{API_TOKEN}",
         "Content-Type": "application/json"
     }
 
     payload = {
-        "sku": product["codigo_interno"],
-        "barcode": product["codigo_de_barras"],
+        "internal_code": product["codigo_interno"],
         "name": product["nome"],
+        "unit_type": product.get("tipo_unidade", "UNI"),  # Ex: UNI, KG, BOX, etc.
         "price": float(product["preco_regular"].replace(",", ".")),
-        "promo_price": float(product["promocao"].replace(",", ".")) if product["promocao"] else None,
-        "promo_end": product["data_termino_promocao"] if product["data_termino_promocao"] else None,
-        "stock": int(product["estoque"]),
-        "active": product["ativo"]
+        "visible": product.get("ativo", True),
+        "stock": float(product.get("estoque", 0)),
+
+        "barcodes": [product["codigo_de_barras"]] if product.get("codigo_de_barras") else [],
+
+        "promo_price": float(product["promocao"].replace(",", ".")) if product.get("promocao") else None,
+        "promo_start_at": product.get("data_inicio_promocao"),
+        "promo_end_at": product.get("data_termino_promocao"),
+
+        "aux_codes": product.get("codigos_auxiliares", []),
+        "auto_revoke_promo": product.get("remover_promocao_automatica", False),
+
+        "wholesale_price": float(product["preco_atacado"].replace(",", ".")) if product.get("preco_atacado") else None,
+        "wholesale_qtd": float(product["qtd_minima_atacado"]) if product.get("qtd_minima_atacado") else None,
+
+        "weight": float(product["peso"]) if product.get("peso") else None,
+        "length": float(product["comprimento"]) if product.get("comprimento") else None,
+        "width": float(product["largura"]) if product.get("largura") else None,
+        "height": float(product["altura"]) if product.get("altura") else None,
+
+        "increment_value": float(product["incremento"]) if product.get("incremento") else None,
+
+        "subcategory_ids": product.get("subcategorias", []),
+        "force_subcategory": product.get("forcar_subcategoria", False),
+        "main_subcategory": product.get("subcategoria_principal")
     }
 
     try:
