@@ -1,4 +1,3 @@
-import os
 from dotenv import load_dotenv
 from csv_reader import read_products_from_csv
 from api_client import send_product_to_api

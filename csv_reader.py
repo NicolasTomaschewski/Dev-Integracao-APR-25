@@ -12,16 +12,30 @@ def read_products_from_csv(file_path):
                 
                 # Normaliza os nomes dos campos
                 product = {
-                    "codigo_interno": row["Código interno"].strip(),
-                    "codigo_de_barras": row["Código de barras"].strip(),
-                    "nome": row["Nome"].strip(),
-                    "preco_regular": row["Preço regular"].strip(),
-                    "promocao": row["Promocao"].strip(),
-                    "data_termino_promocao": row["Data termino promocao"].strip(),
-                    "estoque": row["estoque"].strip(),
-                    "ativo": row["ativo"].strip().lower() == 'true'  # Converte para booleano
+                    "codigo_interno": row.get("Código interno", "").strip(),
+                    "codigo_de_barras": row.get("Código de barras", "").strip(),
+                    "nome": row.get("Nome", "").strip(),
+                    "preco_regular": row.get("Preço regular", "").strip(),
+                    "promocao": row.get("Promocao", "").strip(),
+                    "data_inicio_promocao": row.get("Data inicio promocao", "").strip(),
+                    "data_termino_promocao": row.get("Data termino promocao", "").strip(),
+                    "estoque": row.get("estoque", "").strip(),
+                    "ativo": row.get("ativo", "").strip().lower() == 'true',
+                    "preco_atacado": row.get("preco atacado", "").strip(),
+                    "qtd_minima_atacado": row.get("qtd minima atacado", "").strip(),
+                    "peso": row.get("peso", "").strip(),
+                    "comprimento": row.get("comprimento", "").strip(),
+                    "largura": row.get("largura", "").strip(),
+                    "altura": row.get("altura", "").strip(),
+                    "incremento": row.get("incremento", "").strip(),
+                    "tipo_unidade": row.get("tipo unidade", "").strip() or "UNI",
+                    "codigos_auxiliares": eval(row.get("codigos auxiliares", "[]")),
+                    "remover_promocao_automatica": row.get("remover promocao automatica", "").strip().lower() == 'true',
+                    "subcategorias": eval(row.get("subcategorias", "[]")),
+                    "forcar_subcategoria": row.get("forcar subcategoria", "").strip().lower() == 'true',
+                    "subcategoria_principal": row.get("subcategoria principal", "").strip()
                 }
-
+                
                 products.append(product)
 
             except Exception as e:
