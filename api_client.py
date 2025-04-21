@@ -3,21 +3,21 @@ import requests
 from datetime import datetime
 from dotenv import load_dotenv
 
-# Carrega variáveis de ambiente do arquivo .env
+# Load environment variables from the .env file
 load_dotenv()
 
 API_TOKEN = os.getenv("API_TOKEN")
 BASE_URL = os.getenv("BASE_URL")
 
-def parse_date(data_str):
+def parse_date(date_str):
     try:
-        return datetime.strptime(data_str, "%d/%m/%Y").isoformat() + "Z"
+        return datetime.strptime(date_str, "%d/%m/%Y").isoformat() + "Z"
     except:
         return None
 
 def send_product_to_api(product):
     if not API_TOKEN or not BASE_URL:
-        raise ValueError("API_TOKEN ou BASE_URL não foram carregados corretamente do .env")
+        raise ValueError("API_TOKEN or BASE_URL were not properly loaded from .env")
 
     url = f"{BASE_URL}products"
     headers = {

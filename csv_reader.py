@@ -6,34 +6,34 @@ def read_products_from_csv(file_path):
         reader = csv.DictReader(csvfile, delimiter=';')
         for line_number, row in enumerate(reader, start=1):
             try:
-                # Verifica se os campos obrigatórios estão presentes
+                # Check if required fields are present
                 if not row["Código interno"] or not row["Nome"]:
                     raise ValueError("Missing required fields")
                 
-                # Normaliza os nomes dos campos
+                # Normalize field names
                 product = {
-                    "codigo_interno": row.get("Código interno", "").strip(),
-                    "codigo_de_barras": row.get("Código de barras", "").strip(),
-                    "nome": row.get("Nome", "").strip(),
-                    "preco_regular": row.get("Preço regular", "").strip(),
-                    "promocao": row.get("Promocao", "").strip(),
-                    "data_inicio_promocao": row.get("Data inicio promocao", "").strip(),
-                    "data_termino_promocao": row.get("Data termino promocao", "").strip(),
-                    "estoque": row.get("estoque", "").strip(),
-                    "ativo": row.get("ativo", "").strip().lower() == 'true',
-                    "preco_atacado": row.get("preco atacado", "").strip(),
-                    "qtd_minima_atacado": row.get("qtd minima atacado", "").strip(),
-                    "peso": row.get("peso", "").strip(),
-                    "comprimento": row.get("comprimento", "").strip(),
-                    "largura": row.get("largura", "").strip(),
-                    "altura": row.get("altura", "").strip(),
-                    "incremento": row.get("incremento", "").strip(),
-                    "tipo_unidade": row.get("tipo unidade", "").strip() or "UNI",
-                    "codigos_auxiliares": eval(row.get("codigos auxiliares", "[]")),
-                    "remover_promocao_automatica": row.get("remover promocao automatica", "").strip().lower() == 'true',
-                    "subcategorias": eval(row.get("subcategorias", "[]")),
-                    "forcar_subcategoria": row.get("forcar subcategoria", "").strip().lower() == 'true',
-                    "subcategoria_principal": row.get("subcategoria principal", "").strip()
+                    "internal_code": row.get("Código interno", "").strip(),
+                    "barcode": row.get("Código de barras", "").strip(),
+                    "name": row.get("Nome", "").strip(),
+                    "regular_price": row.get("Preço regular", "").strip(),
+                    "promo_price": row.get("Promocao", "").strip(),
+                    "promo_start_at": row.get("Data inicio promocao", "").strip(),
+                    "promo_end_at": row.get("Data termino promocao", "").strip(),
+                    "stock": row.get("estoque", "").strip(),
+                    "visible": row.get("ativo", "").strip().lower() == 'true',
+                    "wholesale_price": row.get("preco atacado", "").strip(),
+                    "wholesale_qtd": row.get("qtd minima atacado", "").strip(),
+                    "weight": row.get("peso", "").strip(),
+                    "length": row.get("comprimento", "").strip(),
+                    "width": row.get("largura", "").strip(),
+                    "height": row.get("altura", "").strip(),
+                    "increment_value": row.get("incremento", "").strip(),
+                    "unit_type": row.get("tipo unidade", "").strip() or "UNI",
+                    "aux_codes": eval(row.get("codigos auxiliares", "[]")),
+                    "auto_revoke_promo": row.get("remover promocao automatica", "").strip().lower() == 'true',
+                    "subcategory_ids": eval(row.get("subcategorias", "[]")),
+                    "force_subcategory": row.get("forcar subcategoria", "").strip().lower() == 'true',
+                    "main_subcategory": row.get("subcategoria principal", "").strip()
                 }
                 
                 products.append(product)
